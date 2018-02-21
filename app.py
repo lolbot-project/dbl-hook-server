@@ -50,8 +50,8 @@ async def post_hook(request):
     # Usually we should only get requests from DBL or dev clients.
     # So we'll just tell everyone else to fuck off
     if request.host != 'discordbots.org' or 'localhost:8000':
-        return text('Unauthorized', status=401, headers=sign)
         print('warning: {} tried to post').format(request.host)
+        return text('Unauthorized', status=401, headers=sign)
 
     if not request.json:
         return text('Bad Request', status=400, headers=sign)
