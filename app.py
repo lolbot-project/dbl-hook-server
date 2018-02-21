@@ -64,7 +64,7 @@ async def post_hook(request):
             'content': strings['UPVOTE'].format(rj['user'], rj['bot'])
         })
 
-        if req.status == 200:
+        if req.status in [200, 204]:
             return text('OK', headers=sign)
         else:
             print('something happened')
