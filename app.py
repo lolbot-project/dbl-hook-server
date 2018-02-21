@@ -25,6 +25,7 @@ from sanic import Sanic
 from sanic.response import text
 import ruamel.yaml
 import aiohttp
+import asyncio
 
 # log_level = '[%(levelname) - %(name)] %(host)
 # - %(request) [%(status)] | %(message) '
@@ -81,4 +82,7 @@ async def post_hook(request):
 
 if __name__ == "__main__":
     # Run server, port 8000, no logging.
-    app.run(host="0.0.0.0", port=8000, debug=False, access_log=False)
+    serv = app.create_server(host="0.0.0.0", port=8000, debug=False, access_log=False)
+    loop = asyncio.get_event_loop()
+    task = asyncio.ensure_future(serv)
+    loop.run_forever()
