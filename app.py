@@ -67,6 +67,9 @@ async def post_hook(request):
         if req.status == 200:
             return text('OK', headers=sign)
         else:
+            print('something happened')
+            t = await req.text()
+            print(t)
             return text('Server Error', status=500, headers=sign)
     elif request.json['type'] == 'none':
         req = await session.post(conf['webhook'], json={
