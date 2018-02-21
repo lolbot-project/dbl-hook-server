@@ -51,14 +51,17 @@ async def post_hook(request):
     # So we'll just tell everyone else to fuck off
     if request.host != 'discordbots.org' or 'localhost:8000':
         return text('Unauthorized', status=401, headers=sign)
-    #if not request.json:
-    #    return text('Bad Request', status=400, headers=sign)
+
+    if not request.json:
+        return text('Bad Request', status=400, headers=sign)
     else:
         rj = request.json  # character save hack
+
     if request.json['type'] == 'upvote':
         req = await session.post(conf['webhook'], json={
             'content': strings['UPVOTE'].format(rj['user'], rj['bot'])
         })
+
         if req.status == 200:
             return text('OK', headers=sign)
         else:
@@ -67,10 +70,12 @@ async def post_hook(request):
         req = await session.post(conf['webhook'], json={
             'content': strings['UNVOTE'].format(rj['user'], rj['bot'])
         })
+
         if req.status == 200:
             return text('OK', headers=sign)
         else:
             return text('Server Error', status=500, headers=sign)
+
     return text('OK', headers=sign)
 
 if __name__ == "__main__":
