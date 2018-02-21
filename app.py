@@ -51,6 +51,7 @@ async def post_hook(request):
     # So we'll just tell everyone else to fuck off
     if request.host != 'discordbots.org' or 'localhost:8000':
         return text('Unauthorized', status=401, headers=sign)
+        print('warning: {} tried to post').format(request.host)
 
     if not request.json:
         return text('Bad Request', status=400, headers=sign)
